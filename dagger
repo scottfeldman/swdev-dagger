@@ -3,12 +3,20 @@
 from os import getpid
 from kcache import *
 from rtnetlink import *
+import subprocess
 
 class Dagger(KCache):
 
     def __init__(self):
         KCache.__init__(self, getpid(), filters=self.filters(),
                         notifiers=self.notifiers())
+
+    def run(self, cmd, wait=True):
+        print cmd
+        p = subprocess.Popen(cmd, shell=True,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if wait:
+            return p.communicate()
 
     def filter_neigh(self, ndm):
         return ndm.ndm_family != AF_BRIDGE
@@ -36,14 +44,16 @@ class Dagger(KCache):
             in_port = self.kcache_ifaces[neigh.master].ifname
             eth_dst = self.lladdr_str(neigh.lladdr)
             for eth_type in ["0800", "86dd"]:
-                print "./sw %s %s eth_dst %s eth_type %s " \
+                cmd = "sudo ~/sw %s %s eth_type %s eth_dst %s " \
                       "phy_in_port %s action output %s" % \
                       (out_port, op, eth_type, eth_dst, \
                        in_port, out_port)
+                out, err = self.run(cmd)
+                print out, err
 
     def new_neigh(self, data):
         ifindex, neigh = data
-        self.do_neigh(neigh, "flow_install")
+        self.do_neigh(neigh, "flow_insert")
 
     def del_neigh(self, data):
         ifindex, neigh = data

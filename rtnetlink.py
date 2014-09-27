@@ -695,7 +695,7 @@ class RtNetlink(Netlink):
         return nlmsg
 
     def _nl_cb(self, nlh):
-        print "nl cb", self._rt_nlmsg_type_str[nlh.nlmsg_type]
+        #print "nl cb", self._rt_nlmsg_type_str[nlh.nlmsg_type]
 
         if nlh.nlmsg_type in self._cbs:
 
@@ -730,7 +730,7 @@ class RtNetlink(Netlink):
         nlh.nlmsg_len += nlmsg.pack_extra(extra, nlh_p + nlh.nlmsg_len)
         nlh.nlmsg_len += nlmsg.pack_rtas(rtas, nlh_p + nlh.nlmsg_len)
 
-        self.dump(nlh)
+        #self.dump(nlh)
         self.sendall(string_at(nlh_p, nlh.nlmsg_len))
         self.seq += 1
 
