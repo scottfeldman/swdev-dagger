@@ -49,7 +49,8 @@ class Dagger(KCache):
                       (out_port, op, eth_type, eth_dst, \
                        in_port, out_port)
                 out, err = self.run(cmd)
-                print out, err
+                if err:
+                    print err
 
     def new_neigh(self, data):
         ifindex, neigh = data
