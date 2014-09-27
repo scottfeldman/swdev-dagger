@@ -1,0 +1,12 @@
+BUILDING/INSTALLING
+-------------------
+
+Build using stdeb pacakage:
+
+    $ python setup.py --command-packages=stdeb.command bdist_deb
+
+    (Resultant *.deb is deb_dist/python-dagger_0.1-1_all.deb).
+
+Install on target system using dpkg:
+
+    # dpkg -i python-dagger_0.1-1_all.deb
