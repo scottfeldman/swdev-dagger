@@ -67,7 +67,8 @@ class KCacheNeigh(Ndmsg):
     def __eq__(self, other):
         return (string_at(addressof(self), sizeof(self)) == \
             string_at(addressof(other), sizeof(other))) and \
-            self.lladdr == other.lladdr and \
+            string_at(addressof(self.lladdr), sizeof(self.lladdr))  == \
+            string_at(addressof(other.lladdr), sizeof(other.lladdr)) and \
             self.master == other.master
 
 class KCacheError(Exception):

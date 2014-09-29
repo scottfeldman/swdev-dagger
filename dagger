@@ -39,7 +39,9 @@ class Dagger(KCache):
         pass
 
     def do_neigh(self, neigh, op):
-        if neigh.ndm_state & NUD_REACHABLE and neigh.master:
+        if neigh.ndm_state & NUD_REACHABLE and neigh.master and \
+           neigh.ndm_ifindex in self.kcache_ifaces and \
+           neigh.master in self.kcache_ifaces:
             out_port = self.kcache_ifaces[neigh.ndm_ifindex].ifname
             in_port = self.kcache_ifaces[neigh.master].ifname
             eth_dst = self.lladdr_str(neigh.lladdr)
