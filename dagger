@@ -45,7 +45,7 @@ class Dagger(KCache):
             out_port = self.kcache_ifaces[neigh.ndm_ifindex].ifname
             in_port = self.kcache_ifaces[neigh.master].ifname
             eth_dst = self.lladdr_str(neigh.lladdr)
-            for eth_type in ["0800", "86dd"]:
+            for eth_type in ["0800", "0806", "86dd"]:
                 cmd = "sudo ~/sw %s %s eth_type %s eth_dst %s " \
                       "phy_in_port %s action output %s" % \
                       (out_port, op, eth_type, eth_dst, \
